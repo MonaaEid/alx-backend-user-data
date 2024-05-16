@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" function called filter_datum that returns
+"""function called filter_datum that returns
 the log message obfuscated"""
 
 import re
