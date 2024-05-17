@@ -16,7 +16,8 @@ def filter_datum(
     the fields specified in fields using redaction"""
     for field in fields:
         return (re.sub(r'{}=.*?{}'.format(field, separator),
-                         '{}={}{}'.format(field, redaction, separator), message))
+                         '{}={}{}'.format(field, redaction,
+                                          separator), message))
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
