@@ -21,7 +21,7 @@ def filter_datum(
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
+    """Redacting Formatter class
     """
 
     REDACTION = "***"
@@ -29,14 +29,11 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
-        """Redacting Formatter class
-        """
+        """Redacting Formatter class"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
-
     def format(self, record: logging.LogRecord) -> str:
-        """Format the record
-        """
+        """Format the record"""
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
