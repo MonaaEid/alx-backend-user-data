@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """ module Auth"""
-from flask import Flask, jsonify, request
+from flask import request
 from typing import List, TypeVar
 
 
 class Auth:
     """class Auth"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """"""
+        """require_auth"""
         if path is None:
             return True
 
