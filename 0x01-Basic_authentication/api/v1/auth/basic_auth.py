@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ module Auth"""
 from flask import request
+import re
 import base64
 from api.v1.auth.auth import Auth
 from typing import TypeVar
@@ -39,19 +40,17 @@ class BasicAuth(Auth):
             self, decoded_base64_authorization_header: str) -> (str, str):
         """Extracts the user email and password from the Base64 decoded value.
         """
-        if decoded_base64_authorization_header is None:
-            return None, None
-
-        if not isinstance(decoded_base64_authorization_header, str):
-            return None, None
-
-        if ':' not in decoded_base64_authorization_header:
-            return None, None
-
-        user_email, user_password = decoded_base64_authorization_header.split(
-            ':', 1)
-
-        return user_email, user_password
+        if type(decoded_base64_authorization_header) == str:
+            pattern = r'(?P<user>[^:]+):(?P<password>.+)'
+            field_match = re.fullmatch(
+                pattern,
+                decoded_base64_authorization_header.strip(),
+            )
+            if field_match is not None:
+                user = field_match.group('user')
+                password = field_match.group('password')
+                return user, password
+        return None, None
 
     def user_object_from_credentials(
             self,
