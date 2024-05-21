@@ -6,9 +6,6 @@ from api.v1.auth.auth import Auth
 from typing import TypeVar
 
 
-User = TypeVar('User')
-
-
 class BasicAuth(Auth):
     """For now, this class is empty and inherits everything from Auth"""
 
@@ -58,7 +55,7 @@ class BasicAuth(Auth):
     def user_object_from_credentials(
             self,
             user_email: str,
-            user_pwd: str) -> User:
+            user_pwd: str) -> TypeVar('User'):
         """Returns the User instance based on the provided email and password.
         """
         if type(user_email) == str and type(user_pwd) == str:
