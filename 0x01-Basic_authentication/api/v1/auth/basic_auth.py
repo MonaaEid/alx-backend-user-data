@@ -6,6 +6,7 @@ from api.v1.auth.auth import Auth
 from typing import TypeVar
 from models.user import User
 
+
 class BasicAuth(Auth):
     """For now, this class is empty and inherits everything from Auth"""
 
@@ -58,7 +59,7 @@ class BasicAuth(Auth):
             user_pwd: str) -> TypeVar('User'):
         """Returns the User instance based on the provided email and password.
         """
-        if type(user_email) == str and type(user_pwd) == str:
+        if isinstance(user_email, str) and isinstance(user_pwd, str):
             try:
                 users = User.search({'email': user_email})
             except Exception:
@@ -83,5 +84,5 @@ class BasicAuth(Auth):
         user_email, user_pwd = self.extract_user_credentials(decoded_auth)
         if user_email is None or user_pwd is None:
             return None
-        
+
         return self.user_object_from_credentials(user_email, user_pwd)
