@@ -24,6 +24,7 @@ if auth_type == 'auth':
 if auth_type == 'basic_auth':
     auth = BasicAuth()
 
+
 @app.before_request
 def before_request_handler():
     """before_request_handler"""
