@@ -58,16 +58,14 @@ def before_request_handler():
         '/api/v1/forbidden/'
         '/api/v1/auth_session/login/'
     ]
-    if not auth.require_auth(request.path, excluded_paths):
-        return
-    if auth.authorization_header(request) is None \
-        and auth.session_cookie(request) is None:
-        abort(401)
-    request.current_user = auth.current_user(request)
-    if request.current_user is None:
-        abort(403)
-    if not auth.authorization_header(request):
-        abort(401)
+    if auth.require_auth(request.path, excluded_paths):
+        user = auth.current_user(request)
+        if auth.authorization_header(request) is None and \
+                auth.session_cookie(request) is None:
+            abort(401)
+        if user is None:
+            abort(403)
+        request.current_user = user
 
 
 if __name__ == "__main__":
