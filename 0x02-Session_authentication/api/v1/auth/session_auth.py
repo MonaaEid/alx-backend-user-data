@@ -11,6 +11,7 @@ from models.user import User
 from api.v1.auth.auth import Auth
 import uuid
 
+
 class SessionAuth(Auth):
     """SessionAuth class"""
     user_id_by_session_id = {}
