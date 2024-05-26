@@ -15,26 +15,22 @@ def login() -> Tuple[str, int]:
       - User object JSON represented
       - 400 if the User ID doesn't exist
     """
-    not_found_res = {"error": "no user found for this email"}
     email = request.form.get('email')
-    if email is None or len(email.strip()) == 0:
-        return jsonify({"error": "email missing"}), 400
     password = request.form.get('password')
-    if password is None or len(password.strip()) == 0:
+    if email is None or email == "":
+        return jsonify({"error": "email missing"}), 400
+    if password is None or password == "":
         return jsonify({"error": "password missing"}), 400
-    try:
-        users = User.search({'email': email})
-    except Exception:
-        return jsonify(not_found_res), 404
-    if len(users) <= 0:
-        return jsonify(not_found_res), 404
-    if users[0].is_valid_password(password):
-        from api.v1.app import auth
-        sessiond_id = auth.create_session(getattr(users[0], 'id'))
-        res = jsonify(users[0].to_json())
-        res.set_cookie(os.getenv("SESSION_NAME"), sessiond_id)
-        return res
-    return jsonify({"error": "wrong password"}), 401
+    user = User.search({'email': email})
+    if user is None or not user:
+        return jsonify({"error": "no user found for this email"}), 404
+    if not user[0].is_valid_password(password):
+        return jsonify({"error": "wrong password"}), 401
+    from api.v1.app import auth
+    session_id = auth.create_session(user[0].id)
+    response = jsonify(user[0].to_json())
+    response.set_cookie(os.getenv('SESSION_NAME'), session_id)
+    return response
 
 
 @app_views.route('/auth_session/logout', methods=['DELETE'],
