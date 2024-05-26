@@ -15,7 +15,7 @@ def login() -> Tuple[str, int]:
       - User object JSON represented
       - 400 if the User ID doesn't exist
     """
-     not_found_res = {"error": "no user found for this email"}
+    not_found_res = {"error": "no user found for this email"}
     email = request.form.get('email')
     if email is None or len(email.strip()) == 0:
         return jsonify({"error": "email missing"}), 400
