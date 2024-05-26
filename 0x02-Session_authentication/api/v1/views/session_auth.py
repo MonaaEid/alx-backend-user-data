@@ -8,7 +8,8 @@ from typing import Tuple
 from api.v1.auth.session_auth import SessionAuth
 
 
-@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'],
+                 strict_slashes=False)
 def login() -> Tuple[str, int]:
     """ POST /api/v1/auth_session/login
     Return:
@@ -44,18 +45,3 @@ def logout():
     if auth.destroy_session(request) is False:
         abort(404)
     return jsonify({}), 200
-
-
-@app_views.route('/auth_session/profile',
-                 methods=['GET'], strict_slashes=False)
-def profile():
-    """ GET /api/v1/auth_session/profile
-    Return:
-      - User object JSON represented
-      - 404 if the User ID doesn't exist
-    """
-    from api.v1.app import auth
-    user = auth.current_user(request)
-    if user is None:
-        abort(404)
-    return jsonify(user.to_json())
