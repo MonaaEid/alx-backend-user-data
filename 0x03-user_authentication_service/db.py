@@ -47,10 +47,7 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """Find a user by a given attribute
         """
-        result = self._session.query(User).filter_by(**kwargs).first()
-        if result is None:
-            raise NoResultFound()
-        return result
+        return self._session.query(User).filter_by(**kwargs).first()
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user
