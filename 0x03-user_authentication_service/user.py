@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """User model"""
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
 Base = declarative_base()
+
 
 class User(Base):
     """User class"""
