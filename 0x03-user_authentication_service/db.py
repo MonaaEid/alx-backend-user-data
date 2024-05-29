@@ -46,7 +46,13 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """Find a user by a given attribute
         """
-        return self._session.query(User).filter_by(**kwargs).first()
+        fields, values = [], []
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                fields.append(getattr(User, key))
+                values.append(value)
+            else:
+                return self._session.query(User).filter_by(**kwargs).first()
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user
