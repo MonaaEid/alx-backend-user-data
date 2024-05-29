@@ -54,7 +54,7 @@ class DB:
                 values.append(value)
             else:
                 raise InvalidRequestError()
-        result =  self._session.query(User).filter_by(**kwargs).first()
+        result = self._session.query(User).filter_by(**kwargs).first()
         if result is None:
             raise NoResultFound()
         return result
