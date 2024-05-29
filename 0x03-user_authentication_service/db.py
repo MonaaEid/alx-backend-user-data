@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError, NoResultFound
 from user import User
 
 from user import Base
@@ -52,7 +53,11 @@ class DB:
                 fields.append(getattr(User, key))
                 values.append(value)
             else:
-                return self._session.query(User).filter_by(**kwargs).first()
+                raise InvalidRequestError()
+        result =  self._session.query(User).filter_by(**kwargs).first()
+        if result is None:
+            raise NoResultFound()
+        return result
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user
