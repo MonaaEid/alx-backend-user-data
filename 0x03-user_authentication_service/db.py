@@ -47,3 +47,14 @@ class DB:
         """Find a user by a given attribute
         """
         return self._session.query(User).filter_by(**kwargs).first()
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update a user
+        """
+        user = self.find_user_by(id=user_id)
+        for k, v in kwargs.items():
+            if not hasattr(user, k):
+                raise ValueError
+            setattr(user, k, v)
+        self._session.commit()
+        return None
