@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
-
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base
 
 
@@ -46,7 +46,11 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """Find a user by a given attribute
         """
-        return self._session.query(User).filter_by(**kwargs).first()
+        result = self._session.query(User).filter_by(**kwargs).first()
+        if result is None:
+            raise NoResultFound()
+        return result
+
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user
