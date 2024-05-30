@@ -3,6 +3,7 @@
 
 import requests
 
+
 def log_in_wrong_password(email: str, password: str) -> None:
     """log_in_wrong_password"""
     response = requests.post('http://localhost:5000/log_in', json={
@@ -10,6 +11,7 @@ def log_in_wrong_password(email: str, password: str) -> None:
         'password': password
     })
     print(response.json())
+
 
 def register_user(email: str, password: str) -> None:
     """register_user"""
@@ -20,6 +22,7 @@ def register_user(email: str, password: str) -> None:
     assert response.status_code == 200
     print(response.json())
 
+
 def log_in(email: str, password: str) -> str:
     """log_in"""
     response = requests.post('http://localhost:5000/log_in', json={
@@ -29,11 +32,13 @@ def log_in(email: str, password: str) -> str:
     assert response.status_code == 200
     return response.json()['session_id']
 
+
 def profile_unlogged() -> None:
     """profile_unlogged"""
     response = requests.get('http://localhost:5000/profile')
     assert response.status_code == 401
     print(response.json())
+
 
 def profile_logged(session_id: str) -> None:
     """profile_logged"""
@@ -42,12 +47,15 @@ def profile_logged(session_id: str) -> None:
     assert response.status_code == 200
     print(response.json())
 
+
 def log_out(session_id: str) -> None:
     """log_out"""
     headers = {'Authorization': f'Bearer {session_id}'}
-    response = requests.delete('http://localhost:5000/log_out', headers=headers)
+    response = requests.delete('http://localhost:5000/log_out',
+                               headers=headers)
     assert response.status_code == 200
     print(response.json())
+
 
 def reset_password_token(email: str) -> str:
     """reset_password_token"""
@@ -56,6 +64,7 @@ def reset_password_token(email: str) -> str:
     })
     assert response.status_code == 200
     return response.json()['reset_token']
+
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """update_password"""
@@ -66,6 +75,7 @@ def update_password(email: str, reset_token: str, new_password: str) -> None:
     })
     assert response.status_code == 200
     print(response.json())
+
 
 EMAIL = "guillaume@holberton.io"
 PASSWD = "b4l0u"
